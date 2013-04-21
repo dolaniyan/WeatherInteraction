@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="Style.css" />
+        <script>
+            (
+            function () {
+                var canvas = document.querySelector('#paint');
+                var ctx = canvas.getContext('2d');
+
+                var sketch = document.querySelector('#sketch');
+                var sketchStyle = getComputedStyle(sketch);
+
+                canvas.height = parseInt(sketchStyle.getPropertyValue('height'));
+                canvas.width = parseInt(sketchStyle.getPropertyValue('width'));
+
+
+                var mouse = { x: 0, y: 0 };
+
+                canvas.addEventListener('mousemove', function (e) {
+                    mouse.x = e.pageX - this.offsetLeft;
+                    mouse.y = e.pageY - this.offsetTop;
+                }, false);
+
+
+
+                ctx.lineWidth = 5;
+                ctx.lineJoin = 'round';
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = 'blue';
+
+                canvas.addEventListener('mousedown', function (e) {
+                    ctx.beginPath();
+
+                    ctx.moveTo(mouse.x, mouse.y);
+
+                    ctx.addEventListener('mousemove', onPaint, false);
+                }, false);
+
+                canvas.addEventListener('mouseup', function () {
+                    canvas.removeEventListener('mousemove', onPaint, false);
+                }, false);
+
+
+                var onPaint = function () {
+                    ctx.lineTo(mouse.x, mouse.y);
+                    ctx.stroke();
+                };
+            } ()
+                );
+        </script>
+    </head>
+    <body>
+       <h2><a href="Paint.html">Pressure map game</a></h2> 
+       <h2>  <a href="index.html">Weather prediction game</a></h2>
+        
+    </body>
+</html>
